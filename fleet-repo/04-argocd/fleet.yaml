@@ -1,0 +1,20 @@
+# Bundle 4 — Argo CD via son chart Helm officiel
+defaultNamespace: argocd
+
+helm:
+  releaseName: argocd
+  repo: https://argoproj.github.io/argo-helm
+  chart: argo-cd
+  # version: "x.y.z"    # épingle une version précise (voir plus bas)
+  values:
+    configs:
+      params:
+        server.insecure: true    # UI en HTTP, plus simple pour un POC en port-forward
+
+# Exemple : Argo CD seulement sur dev, pas sur prod
+targetCustomizations:
+  - name: pas-en-prod
+    clusterSelector:
+      matchLabels:
+        env: prod
+    doNotDeploy: true
