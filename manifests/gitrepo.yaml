@@ -1,0 +1,21 @@
+# Le point d'entrée de toute la chaîne.
+# __REPO_URL__ et __BRANCHE__ sont remplacés par scripts/04-deployer-gitrepo.sh
+apiVersion: fleet.cattle.io/v1alpha1
+kind: GitRepo
+metadata:
+  name: poc
+  namespace: fleet-default        # fleet-default = clusters en aval
+spec:
+  repo: __REPO_URL__
+  branch: __BRANCHE__
+  pollingInterval: 15s            # vérifie un nouveau commit toutes les 15 s (sinon : webhook)
+  paths:
+    - fleet-repo                  # Fleet parcourt ce dossier : chaque sous-dossier avec un fleet.yaml = 1 bundle
+  # paused: true                  # Expérience 6 : génère les bundles sans les déployer
+  targets:                        # QUI reçoit ces bundles (niveau GitRepo)
+    - name: tous-les-environnements
+      clusterSelector:
+        matchExpressions:
+          - key: env
+            operator: In
+            values: [dev, prod]

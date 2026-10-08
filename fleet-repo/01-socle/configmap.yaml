@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: infos-plateforme
+data:
+  equipe: devops
+  outil-gitops: fleet
+  # Expérience 5 : remplacez "apiVersion: v1" par "apiVersion: v99", poussez,
+  # et regardez le bundle 02 attendre au lieu de se déployer.

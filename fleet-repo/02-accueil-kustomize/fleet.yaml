@@ -1,0 +1,27 @@
+# Bundle 2 — Kustomize.
+# Fleet exécute « kustomize build » sur le dossier indiqué par kustomize.dir.
+# Chaque environnement choisit son overlay via targetCustomizations.
+defaultNamespace: accueil
+
+# Ne se déploie sur un cluster qu'une fois le socle prêt SUR CE MÊME cluster.
+dependsOn:
+  - selector:
+      matchLabels:
+        couche: socle
+
+kustomize:
+  dir: overlays/dev               # valeur par défaut
+
+targetCustomizations:             # évaluées dans l'ordre : la première qui correspond gagne
+  - name: prod
+    clusterSelector:
+      matchLabels:
+        env: prod
+    kustomize:
+      dir: overlays/prod
+  - name: dev
+    clusterSelector:
+      matchLabels:
+        env: dev
+    kustomize:
+      dir: overlays/dev

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: accueil
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: accueil
+  template:
+    metadata:
+      labels:
+        app: accueil
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.27-alpine
+          ports:
+            - containerPort: 80
+          env:
+            - name: ENVIRONNEMENT
+              value: inconnu
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi

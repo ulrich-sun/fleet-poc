@@ -1,0 +1,12 @@
+# Un ClusterGroup est un nom donné à un sélecteur d'étiquettes.
+# Ici : « production » = tous les clusters étiquetés env=prod.
+# Un nouveau cluster étiqueté env=prod rejoint automatiquement le groupe.
+apiVersion: fleet.cattle.io/v1alpha1
+kind: ClusterGroup
+metadata:
+  name: production
+  namespace: fleet-default
+spec:
+  selector:
+    matchLabels:
+      env: prod

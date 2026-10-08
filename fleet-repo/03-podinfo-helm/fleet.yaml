@@ -1,0 +1,27 @@
+# Bundle 3 — Helm, avec un chart EXTERNE (rien d'autre à mettre dans Git).
+defaultNamespace: podinfo
+
+helm:
+  releaseName: podinfo
+  repo: https://stefanprodan.github.io/podinfo
+  chart: podinfo
+  version: "6.*"                  # épinglez une version exacte en vrai projet
+  values:
+    replicaCount: 1
+    ui:
+      color: "#2e7d32"
+      # Templating Fleet : ${ ... } est résolu PAR CLUSTER, côté gestion.
+      message: "Bonjour depuis ${ .ClusterName } (env=${ .ClusterLabels.env })"
+
+# Si quelqu'un modifie une ressource à la main, l'agent la remet comme dans Git.
+correctDrift:
+  enabled: true
+
+targetCustomizations:
+  - name: production
+    clusterGroup: production      # référence au ClusterGroup (manifests/clustergroup.yaml)
+    helm:
+      values:
+        replicaCount: 3
+        ui:
+          color: "#c62828"

@@ -1,0 +1,9 @@
+# Bundle 1 — YAML brut.
+# Pas de Helm, pas de Kustomize : Fleet prend tous les .yaml du dossier
+# (sauf fleet.yaml) et les emballe quand même dans une release Helm.
+defaultNamespace: plateforme
+
+# Étiquettes posées sur le BUNDLE (pas sur les ressources).
+# Le bundle 02 s'en sert pour déclarer sa dépendance.
+labels:
+  couche: socle
